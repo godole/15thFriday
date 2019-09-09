@@ -15,8 +15,8 @@ public class Ghost : MonoBehaviour
         
     }
 
-    void OnTriggerEnter (Collider other)
+    public void Hit()
     {
-        Destroy(this.gameObject);
+        Debug.Log("Hit");
     }
 }
