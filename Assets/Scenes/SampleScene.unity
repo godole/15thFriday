@@ -473,7 +473,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_WalkSpeed: 10
-  m_TurnSpeed: 100
+  m_TurnSpeed: 1000
   m_AttackCenter: {x: 0, y: 0, z: 0}
   m_AttackSize: {x: 10, y: 10, z: 10}
 --- !u!4 &1470961906 stripped
