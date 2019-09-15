@@ -60,7 +60,7 @@ public class CharacterBase : MonoBehaviour
             Quaternion rotateAngle = Quaternion.Euler(0, signedangle, 0);
             Vector3 targetAngle = rotateAngle * new Vector3(h, 0, v);
 
-            transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(targetAngle), m_TurnSpeed);
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(targetAngle), m_TurnSpeed * Time.deltaTime);
         }
     }
 
