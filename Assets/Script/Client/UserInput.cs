@@ -6,6 +6,7 @@ using UnityStandardAssets.CrossPlatformInput;
 public class UserInput : MonoBehaviour
 {
     public CharacterBase m_Client;
+    public CameraBase m_Camera;
 
     // Start is called before the first frame update
     void Start()
@@ -27,6 +28,10 @@ public class UserInput : MonoBehaviour
         float horizontal = CrossPlatformInputManager.GetAxis("Horizontal");
         float vertical = CrossPlatformInputManager.GetAxis("Vertical");
 
+        float mousex = Input.GetAxis("Mouse X");
+        float mousey = Input.GetAxis("Mouse Y");
+
         m_Client.Move(horizontal, vertical);
+        m_Camera.Rotation(mousex, mousey);
     }
 }

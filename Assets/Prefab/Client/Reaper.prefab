@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 1969344314748795343}
   - component: {fileID: 1969344315259135210}
   - component: {fileID: 1969344315259135207}
-  - component: {fileID: 1969344315259135211}
+  - component: {fileID: 9150496547501796192}
   m_Layer: 0
   m_Name: Reaper
   m_TagString: Untagged
@@ -194,7 +194,7 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1969344314755899439}
   m_Mesh: {fileID: 4300004, guid: ef6178546f77bc546af127fb4c56da0c, type: 3}
---- !u!114 &1969344315259135211
+--- !u!114 &9150496547501796192
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -203,7 +203,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1969344314755899439}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3fb1b6f6420e1fa4b9cc6b6e0fa1aed5, type: 3}
+  m_Script: {fileID: 11500000, guid: 91d9110a3f5410141adaa875614b52cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_WalkSpeed: 10
+  m_TurnSpeed: 700
+  m_AttackCenter: {x: 0, y: 0, z: 0}
+  m_AttackSize: {x: 0, y: 0, z: 0}

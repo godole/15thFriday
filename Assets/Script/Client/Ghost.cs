@@ -1,35 +1,20 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityStandardAssets.Utility;
-using UnityStandardAssets.CrossPlatformInput;
-using UnityStandardAssets.Characters.FirstPerson;
 
-[RequireComponent(typeof(CharacterController))]
-public class CharacterBase : MonoBehaviour
+public class Ghost : CharacterBase
 {
-    public float m_WalkSpeed;
-    public float m_TurnSpeed;
-
-    private MouseLook m_MouseLook;
-    private Camera m_Camera;
-    private CharacterController m_CharacterController;
-    private Vector3 m_MoveDir = Vector3.zero;
-
-    private float m_TurnAmount = 0.0f;
-    private float m_ForwardAmount = 0.0f;
-    private float m_MovingTurnSpeed = 360;
-    private float m_StationaryTurnSpeed = 180;
-
-    void Start()
+    public void Hit()
     {
-        m_MouseLook = new MouseLook();
-        m_Camera = Camera.main;
-        m_CharacterController = GetComponent<CharacterController>();
-        m_MouseLook.Init(transform, m_Camera.transform);
+        Debug.Log("Hit");
     }
 
-    public void Move(float horizontal, float vertical)
+    public override void Attack()
+    {
+        
+    }
+
+    public override void Move(float horizontal, float vertical)
     {
         Vector3 input = new Vector3(horizontal, vertical);
         Vector3 desiredMove = m_Camera.transform.forward * input.y + m_Camera.transform.right * input.x;
@@ -49,7 +34,7 @@ public class CharacterBase : MonoBehaviour
 
     void Rotation(float h, float v)
     {
-        if(h != 0 || v != 0)
+        if (h != 0 || v != 0)
         {
             Vector3 camForward = m_Camera.transform.forward;
             camForward = new Vector3(camForward.x, 0, camForward.z);
@@ -62,10 +47,5 @@ public class CharacterBase : MonoBehaviour
 
             transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(targetAngle), m_TurnSpeed * Time.deltaTime);
         }
-    }
-
-    public virtual void Attack()
-    {
-
     }
 }
