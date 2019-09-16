@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class GameScene : MonoBehaviour
 {
+    public UserInput m_UserInput;
     public GameObject m_Reaper;
     public GameObject m_ThirdPersonCamera;
 
@@ -32,27 +33,30 @@ public class GameScene : MonoBehaviour
 
     void CreateCharacter()
     {
-        GameObject character = null;
-        var iptmgr = FindObjectOfType<UserInput>();
-
         if (m_ClientId == 1)
-        {
-            character = Instantiate(m_Reaper, m_StartPosition, new Quaternion());
-            var cam = Instantiate(m_FirstPersonCamera);
-            var camcom = cam.GetComponent<FirstPersonCamera>();
-            camcom.m_Targer = character.transform;
-            iptmgr.m_Client = character.GetComponent<Reaper>();
-            iptmgr.m_Camera = camcom;
-        }
+            CreateReaper();
         
         else
-        {
-            var cam = Instantiate(m_ThirdPersonCamera, m_StartPosition, new Quaternion());
-            character = Instantiate(m_Ghost, m_StartPosition, new Quaternion());
-            var camcom = cam.GetComponent<ThirdPersonCamera>();
-            camcom.m_LookAt = character.transform;
-            iptmgr.m_Client = character.GetComponent<Ghost>();
-            iptmgr.m_Camera = camcom;
-        }
+            CreateGhost();
+    }
+
+    void CreateReaper()
+    {
+        var character = Instantiate(m_Reaper, m_StartPosition, new Quaternion());
+        var cam = Instantiate(m_FirstPersonCamera);
+        var camcom = cam.GetComponent<FirstPersonCamera>();
+        camcom.m_Targer = character.transform;
+        m_UserInput.m_Client = character.GetComponent<Reaper>();
+        m_UserInput.m_Camera = camcom;
+    }
+
+    void CreateGhost()
+    {
+        var cam = Instantiate(m_ThirdPersonCamera, m_StartPosition, new Quaternion());
+        var character = Instantiate(m_Ghost, m_StartPosition, new Quaternion());
+        var camcom = cam.GetComponent<ThirdPersonCamera>();
+        camcom.m_LookAt = character.transform;
+        m_UserInput.m_Client = character.GetComponent<Ghost>();
+        m_UserInput.m_Camera = camcom;
     }
 }
