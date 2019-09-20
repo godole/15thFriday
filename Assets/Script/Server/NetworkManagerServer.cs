@@ -61,7 +61,7 @@ public class NetworkManagerServer : MonoBehaviourPunCallbacks
 
     public void Spawn()
     {
-        PhotonNetwork.Instantiate("ReaperServer", new Vector3(Random.Range(-6f,20f),4,0), Quaternion.identity);
+        PhotonNetwork.Instantiate("Reaper", new Vector3(Random.Range(-6f,20f),2.0f,0), Quaternion.identity);
         RespawnPanel.SetActive(false);
         SpawnP = false;
         //스폰이 될때 Reaper프리벱을 가져온다. 그리고 연결 패널을 지운다.

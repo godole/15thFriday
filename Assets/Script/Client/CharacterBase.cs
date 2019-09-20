@@ -5,7 +5,6 @@ using UnityStandardAssets.Utility;
 using UnityStandardAssets.CrossPlatformInput;
 using UnityStandardAssets.Characters.FirstPerson;
 
-[RequireComponent(typeof(CharacterController))]
 public abstract class CharacterBase : MonoBehaviour
 {
     public float m_WalkSpeed;
