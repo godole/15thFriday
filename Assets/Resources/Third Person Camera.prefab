@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 566969223794495297}
   - component: {fileID: 566969223794495296}
   m_Layer: 0
-  m_Name: Main Camera
+  m_Name: Third Person Camera
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -92,13 +92,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 566969223794495299}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 07206da5b55efd14fbd6f9d23ed3db27, type: 3}
+  m_Script: {fileID: 11500000, guid: 8f45fc57609e31e4fbf1155e73afbf1e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_LookAt: {fileID: 0}
-  m_CamTransform: {fileID: 566969223794495295}
-  m_MaxY: 60
-  m_MinY: 30
+  m_MaxY: 0
+  m_MinY: 0
   m_SensivityX: 4
   m_SensivityY: 1
+  m_LookAt: {fileID: 0}
   distance: 10

@@ -1,11 +1,7 @@
-
-# Created by https://www.gitignore.io/api/unity
-# Edit at https://www.gitignore.io/?templates=unity
-
-### Unity ###
 # This .gitignore file should be placed at the root of your Unity project directory
 #
 # Get latest from https://github.com/github/gitignore/blob/master/Unity.gitignore
+#
 /[Ll]ibrary/
 /[Tt]emp/
 /[Oo]bj/
@@ -62,10 +58,6 @@ sysinfo.txt
 *.apk
 *.unitypackage
 
-[Aa]ssets/[Pp]lugins/GitHub/
-
 # Crashlytics generated file
 crashlytics-build.properties
 
-
-# End of https://www.gitignore.io/api/unity
