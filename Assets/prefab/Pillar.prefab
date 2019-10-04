@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6361308613202012095}
   - component: {fileID: 5154891438491478939}
+  - component: {fileID: 7818325158687398674}
   m_Layer: 0
   m_Name: GameObject
   m_TagString: Untagged
@@ -44,6 +45,18 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 3.95, y: 5.03, z: 0.36}
   m_Center: {x: 0, y: 2.39, z: 0}
+--- !u!114 &7818325158687398674
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1016252961394880451}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14a22b925d714bf4b9eac831f3e2e8d9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!65 &4775279251290224783
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -266,14 +279,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Pillar2
       objectReference: {fileID: 0}
-    - target: {fileID: 100002, guid: 6e66dec764526804e85b27ce5a6b9f03, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 100004, guid: 6e66dec764526804e85b27ce5a6b9f03, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 6e66dec764526804e85b27ce5a6b9f03, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -322,6 +327,14 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: f9ee1556a6267944991a29e7b8a13ff4, type: 2}
+    - target: {fileID: 100002, guid: 6e66dec764526804e85b27ce5a6b9f03, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 100004, guid: 6e66dec764526804e85b27ce5a6b9f03, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2300004, guid: 6e66dec764526804e85b27ce5a6b9f03, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 

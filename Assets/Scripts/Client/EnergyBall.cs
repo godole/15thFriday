@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Photon.Pun;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,11 +7,15 @@ public class EnergyBall : MonoBehaviour
 {
     public GameObject m_EffectObj;
     public Ghost m_Ghost;
+    public MeshRenderer m_Rend;
+
+    bool m_IsActive = true;
+
+    public bool IsActive { get => m_IsActive; set => m_IsActive = value; }
 
     // Start is called before the first frame update
     void Start()
     {
-        
     }
 
     // Update is called once per frame
@@ -21,21 +26,32 @@ public class EnergyBall : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.tag == "Ghost")
-        {
+        if (!m_IsActive)
+            return;
+
+        if(other.tag == "Ghost" && !PhotonNetwork.IsMasterClient)
             m_EffectObj.SetActive(true);
-            m_Ghost = other.GetComponent<Ghost>();
-            m_Ghost.RangedEnergyBall(gameObject);
-        }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.tag == "Ghost")
-        {
+        if (!m_IsActive)
+            return;
+
+        if (other.tag == "Ghost" && !PhotonNetwork.IsMasterClient)
             m_EffectObj.SetActive(false);
-            m_Ghost.OutOfRangeBall();
-            m_Ghost = null;
-        }
+    }
+
+    public void Return()
+    {
+        m_IsActive = true;
+        m_Rend.enabled = true;
+    }
+
+    public void Eaten()
+    {
+        m_IsActive = false;
+        m_Rend.enabled = false;
+        m_EffectObj.SetActive(false);
     }
 }

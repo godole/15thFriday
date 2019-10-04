@@ -7,6 +7,7 @@ using UnityStandardAssets.Characters.FirstPerson;
 
 public abstract class CharacterBase : MonoBehaviour
 {
+    public float m_TurnSpeed;
     public float m_WalkSpeed;
     
     protected Camera m_Camera;
@@ -40,7 +41,29 @@ public abstract class CharacterBase : MonoBehaviour
         m_CharacterController.Move(m_MoveDir * Time.fixedDeltaTime);
     }
 
-    public abstract void Move(float horizontal, float vertical);
+    protected virtual void Rotation(float h, float v)
+    {
+        if (h != 0 || v != 0)
+        {
+            Vector3 camForward = m_Camera.transform.forward;
+            camForward = new Vector3(camForward.x, 0, camForward.z);
+            camForward.Normalize();
+
+            float signedangle = Vector3.SignedAngle(Vector3.forward, camForward, Vector3.up);
+
+            Quaternion rotateAngle = Quaternion.Euler(0, signedangle, 0);
+            Vector3 targetAngle = rotateAngle * new Vector3(h, 0, v);
+
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(targetAngle), m_TurnSpeed * Time.deltaTime);
+        }
+    }
+
+    public virtual void Move(float horizontal, float vertical)
+    {
+        CameraBasedMove(horizontal, vertical);
+
+        Rotation(horizontal, vertical);
+    }
 
     public abstract void Attack();
 }

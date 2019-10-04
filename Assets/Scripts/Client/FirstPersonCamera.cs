@@ -5,10 +5,11 @@ using UnityEngine;
 public class FirstPersonCamera : CameraBase
 {
     public Transform m_Targer;
+    public Vector3 m_DeltaPos;
 
     private void Update()
     {
-        transform.position = m_Targer.position;
+        transform.position = m_Targer.position + m_DeltaPos;
     }
 
     void LateUpdate()

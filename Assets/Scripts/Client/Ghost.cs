@@ -8,19 +8,19 @@ using Photon.Pun;
 
 public class Ghost : CharacterBase
 {
-    public float m_TurnSpeed;
     public GameObject m_EnergyBalls;
     public GameObject m_EnergyBallEaten;
 
     public GameSceneManager m_GameScene;
 
-    GameObject m_RangedEnergyBall;
     private int m_EnergyBallCount = 0;
 
     PhotonView m_PhotonView;
 
     bool m_IsStunned = false;
     bool m_IsRevivaled = false;
+
+    List<EnergyBall> m_EatenEnergyBalls = new List<EnergyBall>();
 
     public int EnergyBallCount { get => m_EnergyBallCount; set => m_EnergyBallCount = value; }
 
@@ -35,23 +35,23 @@ public class Ghost : CharacterBase
 
     public void Hit()
     {
-        Debug.Log("Hit");
+        if (m_IsStunned)
+            return;
+
         RealHit();
     }
 
     [PunRPC]
     void RealHit()
     {
-        if (m_IsStunned)
-            return;
-
         ResetEnergyBall();
+        ReturnEnergyBall();
         StartCoroutine(Stunned());
     }
 
     private void Update()
     {
-        if(Input.GetButtonDown("Fire2"))
+        if (Input.GetButtonDown("Fire2") && m_PhotonView.IsMine)
         {
             m_PhotonView.RPC("EatEnergyBall", RpcTarget.AllViaServer);
         }
@@ -77,36 +77,7 @@ public class Ghost : CharacterBase
         if (m_IsStunned)
             return;
 
-        CameraBasedMove(horizontal, vertical);
-
-        Rotation(horizontal, vertical);
-    }
-
-    void Rotation(float h, float v)
-    {
-        if (h != 0 || v != 0)
-        {
-            Vector3 camForward = m_Camera.transform.forward;
-            camForward = new Vector3(camForward.x, 0, camForward.z);
-            camForward.Normalize();
-
-            float signedangle = Vector3.SignedAngle(Vector3.forward, camForward, Vector3.up);
-
-            Quaternion rotateAngle = Quaternion.Euler(0, signedangle, 0);
-            Vector3 targetAngle = rotateAngle * new Vector3(h, 0, v);
-
-            transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(targetAngle), m_TurnSpeed * Time.deltaTime);
-        }
-    }
-
-    public void RangedEnergyBall(GameObject ball)
-    {
-        m_RangedEnergyBall = ball;
-    }
-
-    public void OutOfRangeBall()
-    {
-        m_RangedEnergyBall = null;
+        base.Move(horizontal, vertical);
     }
 
     public void EnterRevival()
@@ -117,16 +88,29 @@ public class Ghost : CharacterBase
     [PunRPC]
     public void EatEnergyBall()
     {
-        if(m_RangedEnergyBall != null)
+        var obj = Physics.OverlapSphere(transform.position, 8.74f, 1 << 9);
+
+        if (obj.Length == 0)
+            return;
+
+        EnergyBall energyball = null;
+
+        foreach(var e in obj)
         {
-            Vector3 position = m_EnergyBalls.transform.position + new Vector3(0, 1.5f + m_EnergyBallCount, 0);
-            var eaten = Instantiate(m_EnergyBallEaten);
-            eaten.transform.parent = m_EnergyBalls.transform;
-            eaten.transform.position = position;
-            eaten.transform.rotation = new Quaternion();
-            Destroy(m_RangedEnergyBall);
-            m_EnergyBallCount++;
+            var _e = e.GetComponent<EnergyBall>();
+            if (_e.IsActive)
+                energyball = _e;
         }
+
+        if (energyball == null)
+            return;
+
+        energyball.Eaten();
+        m_EatenEnergyBalls.Add(energyball);
+
+        m_EnergyBallCount++;
+
+        CreateEnergyEff();
     }
 
     [PunRPC]
@@ -146,5 +130,22 @@ public class Ghost : CharacterBase
         m_EnergyBalls.transform.parent = gameObject.transform;
         m_EnergyBalls.transform.localPosition = Vector3.zero;
         m_EnergyBalls.transform.localRotation = new Quaternion();
+    }
+
+    void ReturnEnergyBall()
+    {
+        foreach(var e in m_EatenEnergyBalls)
+        {
+            e.Return();
+        }
+    }
+
+    void CreateEnergyEff()
+    {
+        Vector3 position = m_EnergyBalls.transform.position + new Vector3(0, 1.5f + m_EnergyBallCount, 0);
+        var eaten = Instantiate(m_EnergyBallEaten);
+        eaten.transform.parent = m_EnergyBalls.transform;
+        eaten.transform.position = position;
+        eaten.transform.rotation = new Quaternion();
     }
 }

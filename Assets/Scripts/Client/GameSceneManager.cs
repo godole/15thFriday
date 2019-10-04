@@ -18,6 +18,10 @@ public class GameSceneManager : MonoBehaviourPunCallbacks
 
     public Slider m_Slider;
 
+    public const string PLAYER_READY = "IsPlayerReady";
+
+    public const string PLAYER_LOADED_LEVEL = "PlayerLoadedLevel";
+
     int m_CurrentEnergyCount;
 
     public override void OnEnable()
@@ -40,12 +44,15 @@ public class GameSceneManager : MonoBehaviourPunCallbacks
         if(PhotonNetwork.IsMasterClient)
         {
             var reaper = PhotonNetwork.Instantiate("Reaper", m_ReaperStartPosition.transform.position, m_ReaperStartPosition.transform.rotation, 0);
+            var r = reaper.GetComponent<Reaper>();
+            r.DisableMesh();
 
             var cam = Camera.main.gameObject.AddComponent<FirstPersonCamera>();
             cam.m_Targer = reaper.transform;
+            cam.m_DeltaPos = new Vector3(0.0f, 1.72f, 0.0f);
 
             m_UserInput.m_Camera = cam;
-            m_UserInput.m_Client = reaper.GetComponent<Reaper>();
+            m_UserInput.m_Client = r;
         }
         else
         {
@@ -83,15 +90,24 @@ public class GameSceneManager : MonoBehaviourPunCallbacks
                     };
 
         PhotonNetwork.CurrentRoom.SetCustomProperties(props);
+
+        PhotonNetwork.LocalPlayer.AddScore(energy);
     }
 
     private void OnCountdownTimerIsExpired()
     {
-        EndGame();
+        EndGame(GnG.TeamType.Reaper);
     }
 
-    public void EndGame()
+    public void EndGame(GnG.TeamType type)
     {
+        Hashtable props = new Hashtable
+                    {
+                        {GnG.WIN_TEAM, type}
+                    };
+
+        PhotonNetwork.CurrentRoom.SetCustomProperties(props);
+
         PhotonNetwork.LoadLevel("EndGame");
     }
 
@@ -102,11 +118,16 @@ public class GameSceneManager : MonoBehaviourPunCallbacks
             int energy = (int)propertiesThatChanged[GnG.EAT_ENERGY];
             m_CurrentEnergyCount = energy;
 
-            m_Slider.value = energy / GnG.MAX_ENERGY_COUNT;
+            m_Slider.value = (float)energy / GnG.MAX_ENERGY_COUNT;
 
             if (m_CurrentEnergyCount >= GnG.MAX_ENERGY_COUNT)
             {
                 m_RevivalDoor.SetActive(true);
+            }
+
+            foreach (Player p in PhotonNetwork.PlayerList)
+            {
+                Debug.Log(p.NickName + " : " + p.GetScore().ToString());
             }
         }
 
@@ -115,7 +136,7 @@ public class GameSceneManager : MonoBehaviourPunCallbacks
             int revGhost = (int)propertiesThatChanged[GnG.REVIVAL_GHOST_COUNT];
             if (revGhost >= PhotonNetwork.CurrentRoom.PlayerCount - 1)
             {
-                EndGame();
+                EndGame(GnG.TeamType.Ghost);
             }
         }
     }

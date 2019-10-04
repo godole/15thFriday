@@ -5,9 +5,12 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/DemoAsteroids-LobbyScene.unity
     guid: 6be7da1f3aae8c84aab5864f6e815510
+  - enabled: 1
+    path: Assets/Scenes/LobbyScene.unity
+    guid: 3d8de67cb0740ba45a61ffd5f15ac433
   - enabled: 0
     path: Assets/Scenes/SampleScene.unity
     guid: 3b6352ad276441846acce148fd944f41
